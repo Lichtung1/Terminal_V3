@@ -185,7 +185,12 @@ Mᴀɴɪғᴇsᴛɪɴɢ ᴛʜᴇ sᴇᴄᴏɴᴅ ᴄʏʙᴇʀ ʀɪᴛᴜᴀʟ: �
                 displayImage(file.name);
             } else if (fileType === 'AUDIO') {
                 displayOutput("Opening " + file.name + "...");
-                // Handle audio file (implement your logic)
+                // Special case for PLAYLIST.MP3
+                if (file.name.toUpperCase() === 'PLAYLIST.MP3') {
+                    window.open('https://moyamoyawinnipeg.bandcamp.com/album/demolition-2024', '_blank');
+                } else {
+                    // Handle other audio files (implement your logic)
+                }
             } else if (['TEXT', 'DATA', 'SYSTEM', 'DOCUMENT', 'BINARY'].includes(fileType)) {
                 // Treat these types as text files for the purpose of display
                 displayTextFile(file.name);
