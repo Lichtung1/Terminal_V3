@@ -45,7 +45,7 @@ function initTerminal() {
 // Process user input
 function processInput(input) {
     const outputElement = document.getElementById('output');
-    const inputField = document.getElementById('command-input'); 
+    const inputField = document.getElementById('command-input');
     const fullInput = input.trim();
 
     // Echo the command
@@ -54,6 +54,11 @@ function processInput(input) {
     // Clear the input field immediately after echoing
     inputField.value = '';
     inputField.focus(); // Ensure the input field remains focused
+
+    if (awaitingBBSResponse) {
+        handleBBSResponse(fullInput.toLowerCase());
+        return;
+    }
 
     if (expectingCombination) {
         processCombinationInput(fullInput);
@@ -83,6 +88,23 @@ function processInput(input) {
         } else {
             displayOutput(`Error: Command '${fullInput}' not recognized. Type 'help' for a list of available commands.`);
         }
+    }
+}
+
+function handleBBSResponse(response) {
+    if (response === 'yes') {
+        displayOutput("INITIATING CONNECTION...");
+        window.open('https://cep.moyamoya.ca', '_blank');
+        awaitingBBSResponse = false;
+    } else if (response === 'no') {
+        displayOutput("CONNECTION ABORTED.");
+        awaitingBBSResponse = false;
+        // Display directory contents after 'no' response
+        setTimeout(() => {
+            commands['dir']();
+        }, 500); // Short delay for better readability
+    } else {
+        displayOutput("INVALID RESPONSE. PLEASE TYPE 'YES' OR 'NO'.");
     }
 }
 

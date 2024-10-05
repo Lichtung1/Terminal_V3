@@ -1,4 +1,5 @@
 // Commands
+let awaitingBBSResponse = false
 const commands = {
     'help': function() {
         const helpText = `
@@ -231,7 +232,13 @@ Mᴀɴɪғᴇsᴛɪɴɢ ᴛʜᴇ sᴇᴄᴏɴᴅ ᴄʏʙᴇʀ ʀɪᴛᴜᴀʟ: �
         previousDirectory = null; // Reset previousDirectory
 
         displayOutput("Floppy disk ejected successfully.");
-        commands['dir'](); // Display the contents of the current directory
+
+        // Add the new notice immediately, in ALL CAPS
+        displayOutput("NEW PROGRAM UNCOVERED. ROUTING TO BULLETIN BOARD SYSTEM...");
+        displayOutput("INITIATE CONNECTION? [YES/NO]");
+        awaitingBBSResponse = true;
+
+        // Don't automatically display directory contents
     } else {
         displayOutput("No floppy disk is currently loaded.");
     }
